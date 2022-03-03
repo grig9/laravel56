@@ -55,6 +55,17 @@ Route::post('/store', function (Request $request) {
     return redirect('/');
 });
 
-Route::get('/edit', function() {
-    return view('edit');
+Route::get('/edit/{id}', function($id) {
+    $result = DB::table('images')->find($id);
+    $image = $result->path;
+
+    return view('edit', ['image' => $image]);
+});
+
+Route::post('/update', function (Request $request) {
+    $path = $request->file('image')->store('uploads');
+
+    DB::table('images')->where('id')->update(
+        ['path' => $path]
+    );
 });
