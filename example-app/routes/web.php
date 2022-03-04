@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,54 +18,18 @@ use Illuminate\Support\Facades\DB;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', function () {
-    $result = DB::table('images')->get();
+Route::get('/', [ImagesController::class, 'index']);
 
-    $images = $result->all();
-    
-    return view('main', ['images' => $images]);
-});
+Route::get('/create', [ImagesController::class, 'create']);
 
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/show/{id}', [ImagesController::class, 'show']);
 
-Route::get('/create', function () {
-    return view('create');
-});
+Route::post('/store', [ImagesController::class, 'store']);
 
-Route::get('/show/{id}', function ($id) {
-    $result = DB::table('images')->find($id);
-    $image = $result->path;
+Route::get('/edit/{id}', [ImagesController::class, 'edit']);
 
-    return view('show', ['image' => $image]);
-});
+Route::post('/update/{id}', [ImagesController::class, 'update']);
 
-Route::post('/store', function (Request $request) {
-    // получаем объект image
-    $image = $request->file('image');
+Route::get('/delete/{id}', [ImagesController::class, 'delete']);
 
-    //работаем с объектом image
-    $path = $image->store('uploads');
-
-    DB::table('images')->insert(
-        ['path' => $path, ]
-    );
-    
-    return redirect('/');
-});
-
-Route::get('/edit/{id}', function($id) {
-    $result = DB::table('images')->find($id);
-    $image = $result->path;
-
-    return view('edit', ['image' => $image]);
-});
-
-Route::post('/update', function (Request $request) {
-    $path = $request->file('image')->store('uploads');
-
-    DB::table('images')->where('id')->update(
-        ['path' => $path]
-    );
-});
+Route::get('/about', [HomeController::class, 'about']);
