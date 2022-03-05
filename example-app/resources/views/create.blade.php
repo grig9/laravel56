@@ -15,5 +15,10 @@
       </form>
     </div>
   </div>
+  @if($status)
+    <div class="alert alert-{{$status['type']}} mt-3 text-center" role="alert">
+      {{{$status['message']}}}
+    </div>
+  @endif
 </div>
 @endsection
