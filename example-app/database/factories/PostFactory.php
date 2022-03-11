@@ -21,11 +21,13 @@ class PostFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->word,
+            'title' => $this->faker->sentence(3),
             'slug' => $this->faker->slug,
             'content' => $this->faker->text,
             'date' => $this->faker->date,
+            'image' => $this->faker->imageUrl(640, 480, 'animals', true),
             'user_id' => User::factory()->create() // User::factory()->create() возвращает id
+
         ];
     }
 }

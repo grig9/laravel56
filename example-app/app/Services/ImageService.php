@@ -12,7 +12,7 @@ class ImageService
   {
     $result = DB::table($table)->get();
 
-    return $result->all();
+    return $result;
   }
 
   static function one($table, $id)
