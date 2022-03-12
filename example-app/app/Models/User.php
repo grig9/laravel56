@@ -47,4 +47,25 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    public static function register($data)
+    {
+        $user = new self;
+        $user->fill($data);
+        $user->setPassword($data['password']);
+        $user->save();
+    }
+
+    private function setPassword($password)
+    {
+        $this->password = bcrypt($password);
+    }
+
+    public static function login($data)
+    {
+        $user = new self;
+        $user->fill($data);
+        $user->setPassword($data['password']);
+        $user->save();
+    }
 }
